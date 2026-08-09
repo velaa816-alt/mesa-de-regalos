@@ -302,7 +302,7 @@
     <h2 class="section-title">Mesa de Regalos</h2>
     <p class="section-desc">Tu presencia es nuestro mejor regalo. Si deseas realizarnos un obsequio, puedes elegir una opción de nuestra lista:</p>
 
-    <div class="gift-grid" id="giftContainer"></div>
+    <div class="gift-grid" id="giftContainer">Cargando regalos...</div>
 
     <div class="footer-note">
         Nos vemos en el gran día ❤️
@@ -321,36 +321,61 @@
 
         <div class="modal-buttons">
             <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-            <button class="btn-confirm" onclick="confirmReservation()">Reservar regalo</button>
+            <button class="btn-confirm" id="btnConfirm" onclick="confirmReservation()">Reservar regalo</button>
         </div>
     </div>
 </div>
 
 <script>
     const WHATSAPP_PHONE = "51975001996";
+    const API_URL = 'https://sheetdb.io/api/v1/gsi3nvdi219m2';
 
-    const defaultGifts = [{"id": 1, "name": "Olla Arrocera", "category": "Regalo de Boda", "reservedBy": null}, {"id": 2, "name": "Plancha", "category": "Regalo de Boda", "reservedBy": null}, {"id": 3, "name": "Licuadora", "category": "Regalo de Boda", "reservedBy": null}, {"id": 4, "name": "Juego de ollas", "category": "Regalo de Boda", "reservedBy": null}, {"id": 5, "name": "Tostadera", "category": "Regalo de Boda", "reservedBy": null}, {"id": 6, "name": "Exprimidor de cítricos", "category": "Regalo de Boda", "reservedBy": null}, {"id": 7, "name": "Microonda", "category": "Regalo de Boda", "reservedBy": null}, {"id": 8, "name": "Sanguchera", "category": "Regalo de Boda", "reservedBy": null}, {"id": 9, "name": "Sartén", "category": "Regalo de Boda", "reservedBy": null}, {"id": 10, "name": "Set de Táper de vidrio", "category": "Regalo de Boda", "reservedBy": null}, {"id": 11, "name": "Juego de tazas", "category": "Regalo de Boda", "reservedBy": null}, {"id": 12, "name": "Juego de copas de vidrio para postres", "category": "Regalo de Boda", "reservedBy": null}, {"id": 13, "name": "Juego de dulceras de vidrio", "category": "Regalo de Boda", "reservedBy": null}, {"id": 14, "name": "Set de cubiertos de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 15, "name": "Escurridor de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 16, "name": "Termo de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 17, "name": "Set de cucharones tramontina", "category": "Regalo de Boda", "reservedBy": null}, {"id": 18, "name": "Set de bandeja de vidrio", "category": "Regalo de Boda", "reservedBy": null}, {"id": 19, "name": "Tetera de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 20, "name": "Set de dispensador y pulverizador de aceites", "category": "Regalo de Boda", "reservedBy": null}, {"id": 21, "name": "Sábanas para cama Queen (2 plazas y media)", "category": "Regalo de Boda", "reservedBy": null}, {"id": 22, "name": "Edredón para cama Queen (2 plazas y media)", "category": "Regalo de Boda", "reservedBy": null}, {"id": 23, "name": "Cubrecama para cama Queen (2 plazas y media)", "category": "Regalo de Boda", "reservedBy": null}, {"id": 24, "name": "Organizador de Zapatos", "category": "Regalo de Boda", "reservedBy": null}, {"id": 25, "name": "Equipo de sonido portátil", "category": "Regalo de Boda", "reservedBy": null}, {"id": 26, "name": "Silla de escritorio", "category": "Regalo de Boda", "reservedBy": null}, {"id": 27, "name": "Juego de comedor", "category": "Regalo de Boda", "reservedBy": null}, {"id": 28, "name": "Refrigeradora", "category": "Regalo de Boda", "reservedBy": null}, {"id": 29, "name": "Set de Toalla de Mano", "category": "Regalo de Boda", "reservedBy": null}, {"id": 30, "name": "Estractor", "category": "Regalo de Boda", "reservedBy": null}, {"id": 31, "name": "Set de contenedores herméticos", "category": "Regalo de Boda", "reservedBy": null}, {"id": 32, "name": "Condimento giratorio de madera", "category": "Regalo de Boda", "reservedBy": null}, {"id": 33, "name": "Vajilla completa", "category": "Regalo de Boda", "reservedBy": null}, {"id": 34, "name": "Frascos y contenedores asthetic", "category": "Regalo de Boda", "reservedBy": null}, {"id": 35, "name": "Juego de almohadas", "category": "Regalo de Boda", "reservedBy": null}, {"id": 36, "name": "Silla colgante tipo huevo", "category": "Regalo de Boda", "reservedBy": null}, {"id": 37, "name": "Set de toallas de baño", "category": "Regalo de Boda", "reservedBy": null}, {"id": 38, "name": "Organizadores de te filtrante", "category": "Regalo de Boda", "reservedBy": null}, {"id": 39, "name": "Set de cuchillos de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 40, "name": "Freidora de aire", "category": "Regalo de Boda", "reservedBy": null}, {"id": 41, "name": "Set de organizadores para lavandería", "category": "Regalo de Boda", "reservedBy": null}, {"id": 42, "name": "Lavadora", "category": "Regalo de Boda", "reservedBy": null}];
+    const defaultGifts = [{"id": 1, "name": "Olla Arrocera"}, {"id": 2, "name": "Plancha"}, {"id": 3, "name": "Licuadora"}, {"id": 4, "name": "Juego de ollas"}, {"id": 5, "name": "Tostadera"}, {"id": 6, "name": "Exprimidor de cítricos"}, {"id": 7, "name": "Microonda"}, {"id": 8, "name": "Sanguchera"}, {"id": 9, "name": "Sartén"}, {"id": 10, "name": "Set de Táper de vidrio"}, {"id": 11, "name": "Juego de tazas"}, {"id": 12, "name": "Juego de copas de vidrio para postres"}, {"id": 13, "name": "Juego de dulceras de vidrio"}, {"id": 14, "name": "Set de cubiertos de acero inoxidable"}, {"id": 15, "name": "Escurridor de acero inoxidable"}, {"id": 16, "name": "Termo de acero inoxidable"}, {"id": 17, "name": "Set de cucharones tramontina"}, {"id": 18, "name": "Set de bandeja de vidrio"}, {"id": 19, "name": "Tetera de acero inoxidable"}, {"id": 20, "name": "Set de dispensador y pulverizador de aceites"}, {"id": 21, "name": "Sábanas para cama Queen (2 plazas y media)"}, {"id": 22, "name": "Edredón para cama Queen (2 plazas y media)"}, {"id": 23, "name": "Cubrecama para cama Queen (2 plazas y media)"}, {"id": 24, "name": "Organizador de Zapatos"}, {"id": 25, "name": "Equipo de sonido portátil"}, {"id": 26, "name": "Silla de escritorio"}, {"id": 27, "name": "Juego de comedor"}, {"id": 28, "name": "Refrigeradora"}, {"id": 29, "name": "Set de Toalla de Mano"}, {"id": 30, "name": "Estractor"}, {"id": 31, "name": "Set de contenedores herméticos"}, {"id": 32, "name": "Condimento giratorio de madera"}, {"id": 33, "name": "Vajilla completa"}, {"id": 34, "name": "Frascos y contenedores asthetic"}, {"id": 35, "name": "Juego de almohadas"}, {"id": 36, "name": "Silla colgante tipo huevo"}, {"id": 37, "name": "Set de toallas de baño"}, {"id": 38, "name": "Organizadores de te filtrante"}, {"id": 39, "name": "Set de cuchillos de acero inoxidable"}, {"id": 40, "name": "Freidora de aire"}, {"id": 41, "name": "Set de organizadores para lavandería"}, {"id": 42, "name": "Lavadora"}];
 
-    let gifts = JSON.parse(localStorage.getItem('wedding_gifts_hector_yahaira')) || defaultGifts;
+    let giftsData = [];
     let selectedGiftId = null;
+
+    async function loadGifts() {
+        const container = document.getElementById('giftContainer');
+        
+        try {
+            const response = await fetch(API_URL);
+            const sheetData = await response.json();
+
+            // Combinar datos locales con el estado real de Google Sheets
+            giftsData = defaultGifts.map(gift => {
+                const sheetItem = sheetData.find(item => String(item.id) === String(gift.id));
+                return {
+                    ...gift,
+                    estado: sheetItem ? sheetItem.estado : 'Disponible',
+                    invitado: sheetItem ? sheetItem.invitado : null
+                };
+            });
+        } catch (error) {
+            console.error('Error cargando SheetDB, usando plantilla base:', error);
+            giftsData = defaultGifts.map(g => ({ ...g, estado: 'Disponible', invitado: null }));
+        }
+
+        renderGifts();
+    }
 
     function renderGifts() {
         const container = document.getElementById('giftContainer');
         container.innerHTML = '';
 
-        gifts.forEach(gift => {
-            const isReserved = gift.reservedBy !== null;
+        giftsData.forEach(gift => {
+            const isReserved = gift.estado && gift.estado.toLowerCase() === 'reservado';
 
             const itemHTML = `
                 <div class="gift-card ${isReserved ? 'reserved' : ''}">
                     <div class="gift-name">${gift.name}</div>
                     <div class="gift-status">
-                        ${isReserved ? `<i class="fa-solid fa-circle-check" style="color: #2c3e35;"></i> Reservado por ${gift.reservedBy}` : '<i class="fa-regular fa-circle"></i> Disponible'}
+                        ${isReserved ? `<i class="fa-solid fa-circle-check" style="color: #2c3e35;"></i> Reservado por ${gift.invitado || 'un invitado'}` : '<i class="fa-regular fa-circle"></i> Disponible'}
                     </div>
                     <button class="btn-reserve" 
                         ${isReserved ? 'disabled' : ''} 
                         onclick="openModal(${gift.id})">
-                        ${isReserved ? 'Reservado' : 'Elegir'}
+                        ${isReserved ? 'Reservado 🔒' : 'Elegir'}
                     </button>
                 </div>
             `;
@@ -360,7 +385,7 @@
 
     function openModal(id) {
         selectedGiftId = id;
-        const gift = gifts.find(g => g.id === id);
+        const gift = giftsData.find(g => g.id === id);
         document.getElementById('modalGiftName').innerText = `Elegiste: "${gift.name}"`;
         document.getElementById('guestName').value = '';
         document.getElementById('reserveModal').classList.add('active');
@@ -371,77 +396,55 @@
         selectedGiftId = null;
     }
 
-    function confirmReservation() {
+    async function confirmReservation() {
         const nameInput = document.getElementById('guestName').value.trim();
         if (!nameInput) {
             alert('Por favor, ingresa tu nombre para reservar el regalo.');
             return;
         }
 
-        const gift = gifts.find(g => g.id === selectedGiftId);
-        gift.reservedBy = nameInput;
+        const btnConfirm = document.getElementById('btnConfirm');
+        btnConfirm.innerText = 'Guardando...';
+        btnConfirm.disabled = true;
 
-        localStorage.setItem('wedding_gifts_hector_yahaira', JSON.stringify(gifts));
+        const gift = giftsData.find(g => g.id === selectedGiftId);
 
-        renderGifts();
-        closeModal();
+        try {
+            // Guardar en Google Sheets vía SheetDB
+            await fetch(`${API_URL}/id/${gift.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    data: {
+                        estado: 'Reservado',
+                        invitado: nameInput
+                    }
+                })
+            });
 
-        const message = `¡Hola! Soy ${nameInput}. He reservado el siguiente regalo para su boda: "${gift.name}". ¡Nos vemos pronto en la celebración! 💍✨`;
-        const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
+            closeModal();
+            btnConfirm.innerText = 'Reservar regalo';
+            btnConfirm.disabled = false;
 
-        setTimeout(() => {
+            // Abrir WhatsApp
+            const message = `¡Hola! Soy ${nameInput}. He reservado el siguiente regalo para su boda: "${gift.name}". ¡Nos vemos pronto en la celebración! 💍✨`;
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
+
             if (confirm(`¡Gracias ${nameInput}! Tu regalo ha sido apartado. ¿Deseas enviar la confirmación directamente por WhatsApp a los novios?`)) {
                 window.open(whatsappUrl, '_blank');
             }
-        }, 300);
-    }
 
-    renderGifts();
-</script>
+            // Recargar lista actualizada
+            loadGifts();
 
-</body>
-    <script>
-  const API_URL = 'https://sheetdb.io/api/v1/gsi3nvdi219m2';
-
-  // Cargar estado de regalos al entrar a la página
-  async function actualizarEstadoRegalos() {
-    try {
-      const response = await fetch(API_URL);
-      const regalos = await response.json();
-
-      regalos.forEach(item => {
-        if (item.estado && item.estado.toLowerCase() === 'reservado') {
-          // Busca botones o elementos marcados con el ID o nombre del regalo
-          const boton = document.querySelector(`[data-id="${item.id}"]`) || 
-                        document.querySelector(`[data-regalo="${item.regalo}"]`);
-          if (boton) {
-            boton.innerText = 'Reservado 🔒';
-            boton.disabled = true;
-            boton.classList.add('reservado');
-          }
+        } catch (error) {
+            alert('Ocurrió un error al registrar tu reserva. Inténtalo de nuevo.');
+            btnConfirm.innerText = 'Reservar regalo';
+            btnConfirm.disabled = false;
         }
-      });
-    } catch (error) {
-      console.error('Error al cargar datos:', error);
     }
-  }
 
-  // Función para guardar cuando un invitado elige un regalo
-  async function reservarRegalo(id, nombreInvitado) {
-    try {
-      await fetch(`${API_URL}/id/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          data: { estado: 'Reservado', invitado: nombreInvitado }
-        })
-      });
-      location.reload(); // Recarga para mostrar el cambio
-    } catch (error) {
-      alert('Ocurrió un error al guardar la reserva.');
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', actualizarEstadoRegalos);
+    document.addEventListener('DOMContentLoaded', loadGifts);
 </script>
+</body>
 </html>
