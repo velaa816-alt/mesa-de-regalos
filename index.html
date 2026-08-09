@@ -400,4 +400,48 @@
 </script>
 
 </body>
+    <script>
+  const API_URL = 'https://sheetdb.io/api/v1/gsi3nvdi219m2';
+
+  // Cargar estado de regalos al entrar a la página
+  async function actualizarEstadoRegalos() {
+    try {
+      const response = await fetch(API_URL);
+      const regalos = await response.json();
+
+      regalos.forEach(item => {
+        if (item.estado && item.estado.toLowerCase() === 'reservado') {
+          // Busca botones o elementos marcados con el ID o nombre del regalo
+          const boton = document.querySelector(`[data-id="${item.id}"]`) || 
+                        document.querySelector(`[data-regalo="${item.regalo}"]`);
+          if (boton) {
+            boton.innerText = 'Reservado 🔒';
+            boton.disabled = true;
+            boton.classList.add('reservado');
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error al cargar datos:', error);
+    }
+  }
+
+  // Función para guardar cuando un invitado elige un regalo
+  async function reservarRegalo(id, nombreInvitado) {
+    try {
+      await fetch(`${API_URL}/id/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          data: { estado: 'Reservado', invitado: nombreInvitado }
+        })
+      });
+      location.reload(); // Recarga para mostrar el cambio
+    } catch (error) {
+      alert('Ocurrió un error al guardar la reserva.');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', actualizarEstadoRegalos);
+</script>
 </html>
