@@ -338,16 +338,14 @@
 
     async function loadGifts() {
         try {
-            // Se agrega cache: 'no-store' y parametro ?t= para romper la caché del navegador
             const response = await fetch(`${API_URL}?t=${Date.now()}`, { cache: 'no-store' });
             const sheetData = await response.json();
 
             giftsData = defaultGifts.map(gift => {
-                // Forzamos String() y trim() para asegurar una coincidencia limpia
                 const sheetItem = sheetData.find(item => String(item.id).trim() === String(gift.id).trim());
                 return {
                     ...gift,
-                    estado: sheetItem && sheetItem.estado ? sheetItem.estado : 'Disponible',
+                    estado: sheetItem && sheetItem.estado ? String(sheetItem.estado) : 'Disponible',
                     invitado_1: sheetItem && sheetItem.invitado_1 ? String(sheetItem.invitado_1) : '',
                     invitado_2: sheetItem && sheetItem.invitado_2 ? String(sheetItem.invitado_2) : '',
                     invitado_3: sheetItem && sheetItem.invitado_3 ? String(sheetItem.invitado_3) : ''
@@ -371,15 +369,29 @@
             if (gift.invitado_2 && gift.invitado_2.trim() !== '') count++;
             if (gift.invitado_3 && gift.invitado_3.trim() !== '') count++;
 
+            // Respaldos si falta el nombre del invitado pero la columna estado ya cambió
+            if (count === 0 && gift.estado) {
+                if (gift.estado.includes('1/3')) count = 1;
+                else if (gift.estado.includes('2/3')) count = 2;
+                else if (gift.estado.includes('3/3') || gift.estado.toLowerCase().includes('agotado')) count = 3;
+            } else if (count === 1 && gift.estado && gift.estado.includes('2/3')) {
+                count = 2;
+            } else if (count < 3 && gift.estado && (gift.estado.includes('3/3') || gift.estado.toLowerCase().includes('agotado'))) {
+                count = 3;
+            }
+
             const isFullyReserved = count >= 3 || (gift.estado && gift.estado.toLowerCase().includes('agotado'));
 
             let statusText = '';
             if (count === 0) {
                 statusText = '<i class="fa-regular fa-circle"></i> Disponible (0/3)';
             } else if (count === 1) {
-                statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> 1/3 Reservado<br><small>(${gift.invitado_1})</small>`;
+                const nombre = gift.invitado_1 ? ` (${gift.invitado_1})` : '';
+                statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> 1/3 Reservado<br><small>${nombre}</small>`;
             } else if (count === 2) {
-                statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> 2/3 Reservados<br><small>(${gift.invitado_1}, ${gift.invitado_2})</small>`;
+                const nombresList = [gift.invitado_1, gift.invitado_2].filter(Boolean).join(', ');
+                const nombres = nombresList ? ` (${nombresList})` : '';
+                statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> 2/3 Reservados<br><small>${nombres}</small>`;
             } else {
                 statusText = `<i class="fa-solid fa-circle-check" style="color: #2c3e35;"></i> Agotado (3/3)`;
             }
@@ -431,7 +443,6 @@
                 invitado_1: nameInput,
                 estado: 'Reservado (1/3)'
             };
-            // Actualizamos en memoria local de inmediato
             gift.invitado_1 = nameInput;
             gift.estado = 'Reservado (1/3)';
         } else if (!gift.invitado_2 || gift.invitado_2.trim() === '') {
@@ -456,7 +467,6 @@
             return;
         }
 
-        // Renderizamos instantáneamente en la interfaz antes de esperar la respuesta del API
         renderGifts();
 
         try {
@@ -477,7 +487,6 @@
                 window.open(whatsappUrl, '_blank');
             }
 
-            // Volvemos a recargar los datos del servidor para verificar sincro
             loadGifts();
 
         } catch (error) {
