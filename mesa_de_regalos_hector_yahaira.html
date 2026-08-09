@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Boda - Hector & Yahaira</title>
+    <!-- Fonts Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #8a704c;
+            --primary-light: #c5b396;
+            --accent: #2c3e35;
+            --bg-light: #faf8f5;
+            --text-dark: #2d2d2d;
+            --text-muted: #666666;
+            --card-bg: #ffffff;
+            --border-color: #e5ded4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f2ede4;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        .header {
+            background-color: var(--accent);
+            color: #ffffff;
+            text-align: center;
+            padding: 50px 20px 40px;
+            position: relative;
+            background-image: radial-gradient(circle at center, rgba(138,112,76,0.2) 0%, transparent 70%);
+        }
+
+        .header::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 2px;
+            background-color: var(--primary-light);
+            margin: 20px auto 0;
+        }
+
+        .subtitle-top {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--primary-light);
+            margin-bottom: 12px;
+        }
+
+        .names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .names span {
+            display: block;
+            font-style: italic;
+            font-size: 26px;
+            color: var(--primary-light);
+        }
+
+        .date-badge {
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            color: #eae5dc;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            color: var(--accent);
+            margin: 35px 20px 10px;
+            position: relative;
+        }
+
+        .section-desc {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            padding: 0 25px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .gift-grid {
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .gift-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+        }
+
+        .gift-card.reserved {
+            background-color: #f3f3f3;
+            border-color: #e0e0e0;
+            opacity: 0.7;
+        }
+
+        .gift-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gift-status {
+            font-size: 11px;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+        }
+
+        .btn-reserve {
+            width: 100%;
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+        }
+
+        .btn-reserve:hover {
+            background-color: var(--accent);
+        }
+
+        .btn-reserve:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .modal-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: #eee;
+            color: #333;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-confirm {
+            flex: 1;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 40px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+    <div class="header">
+        <div class="subtitle-top">Nuestra Boda</div>
+        <div class="names">Hector <span>&</span> Yahaira</div>
+        <div class="date-badge">12 de Septiembre</div>
+    </div>
+
+    <h2 class="section-title">Mesa de Regalos</h2>
+    <p class="section-desc">Tu presencia es nuestro mejor regalo. Si deseas realizarnos un obsequio, puedes elegir una opción de nuestra lista:</p>
+
+    <div class="gift-grid" id="giftContainer"></div>
+
+    <div class="footer-note">
+        Nos vemos en el gran día ❤️
+    </div>
+</div>
+
+<div class="modal-overlay" id="reserveModal">
+    <div class="modal">
+        <div class="modal-title">Reservar Regalo</div>
+        <div class="modal-subtitle" id="modalGiftName">Cargando regalo...</div>
+        
+        <div class="form-group">
+            <label for="guestName">Tu Nombre Completo:</label>
+            <input type="text" id="guestName" placeholder="Ej. Juan Pérez">
+        </div>
+
+        <div class="modal-buttons">
+            <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+            <button class="btn-confirm" onclick="confirmReservation()">Reservar regalo</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WHATSAPP_PHONE = "51975001996";
+
+    const defaultGifts = [{"id": 1, "name": "Olla Arrocera", "category": "Regalo de Boda", "reservedBy": null}, {"id": 2, "name": "Plancha", "category": "Regalo de Boda", "reservedBy": null}, {"id": 3, "name": "Licuadora", "category": "Regalo de Boda", "reservedBy": null}, {"id": 4, "name": "Juego de ollas", "category": "Regalo de Boda", "reservedBy": null}, {"id": 5, "name": "Tostadera", "category": "Regalo de Boda", "reservedBy": null}, {"id": 6, "name": "Exprimidor de cítricos", "category": "Regalo de Boda", "reservedBy": null}, {"id": 7, "name": "Microonda", "category": "Regalo de Boda", "reservedBy": null}, {"id": 8, "name": "Sanguchera", "category": "Regalo de Boda", "reservedBy": null}, {"id": 9, "name": "Sartén", "category": "Regalo de Boda", "reservedBy": null}, {"id": 10, "name": "Set de Táper de vidrio", "category": "Regalo de Boda", "reservedBy": null}, {"id": 11, "name": "Juego de tazas", "category": "Regalo de Boda", "reservedBy": null}, {"id": 12, "name": "Juego de copas de vidrio para postres", "category": "Regalo de Boda", "reservedBy": null}, {"id": 13, "name": "Juego de dulceras de vidrio", "category": "Regalo de Boda", "reservedBy": null}, {"id": 14, "name": "Set de cubiertos de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 15, "name": "Escurridor de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 16, "name": "Termo de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 17, "name": "Set de cucharones tramontina", "category": "Regalo de Boda", "reservedBy": null}, {"id": 18, "name": "Set de bandeja de vidrio", "category": "Regalo de Boda", "reservedBy": null}, {"id": 19, "name": "Tetera de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 20, "name": "Set de dispensador y pulverizador de aceites", "category": "Regalo de Boda", "reservedBy": null}, {"id": 21, "name": "Sábanas para cama Queen (2 plazas y media)", "category": "Regalo de Boda", "reservedBy": null}, {"id": 22, "name": "Edredón para cama Queen (2 plazas y media)", "category": "Regalo de Boda", "reservedBy": null}, {"id": 23, "name": "Cubrecama para cama Queen (2 plazas y media)", "category": "Regalo de Boda", "reservedBy": null}, {"id": 24, "name": "Organizador de Zapatos", "category": "Regalo de Boda", "reservedBy": null}, {"id": 25, "name": "Equipo de sonido portátil", "category": "Regalo de Boda", "reservedBy": null}, {"id": 26, "name": "Silla de escritorio", "category": "Regalo de Boda", "reservedBy": null}, {"id": 27, "name": "Juego de comedor", "category": "Regalo de Boda", "reservedBy": null}, {"id": 28, "name": "Refrigeradora", "category": "Regalo de Boda", "reservedBy": null}, {"id": 29, "name": "Set de Toalla de Mano", "category": "Regalo de Boda", "reservedBy": null}, {"id": 30, "name": "Estractor", "category": "Regalo de Boda", "reservedBy": null}, {"id": 31, "name": "Set de contenedores herméticos", "category": "Regalo de Boda", "reservedBy": null}, {"id": 32, "name": "Condimento giratorio de madera", "category": "Regalo de Boda", "reservedBy": null}, {"id": 33, "name": "Vajilla completa", "category": "Regalo de Boda", "reservedBy": null}, {"id": 34, "name": "Frascos y contenedores asthetic", "category": "Regalo de Boda", "reservedBy": null}, {"id": 35, "name": "Juego de almohadas", "category": "Regalo de Boda", "reservedBy": null}, {"id": 36, "name": "Silla colgante tipo huevo", "category": "Regalo de Boda", "reservedBy": null}, {"id": 37, "name": "Set de toallas de baño", "category": "Regalo de Boda", "reservedBy": null}, {"id": 38, "name": "Organizadores de te filtrante", "category": "Regalo de Boda", "reservedBy": null}, {"id": 39, "name": "Set de cuchillos de acero inoxidable", "category": "Regalo de Boda", "reservedBy": null}, {"id": 40, "name": "Freidora de aire", "category": "Regalo de Boda", "reservedBy": null}, {"id": 41, "name": "Set de organizadores para lavandería", "category": "Regalo de Boda", "reservedBy": null}, {"id": 42, "name": "Lavadora", "category": "Regalo de Boda", "reservedBy": null}];
+
+    let gifts = JSON.parse(localStorage.getItem('wedding_gifts_hector_yahaira')) || defaultGifts;
+    let selectedGiftId = null;
+
+    function renderGifts() {
+        const container = document.getElementById('giftContainer');
+        container.innerHTML = '';
+
+        gifts.forEach(gift => {
+            const isReserved = gift.reservedBy !== null;
+
+            const itemHTML = `
+                <div class="gift-card ${isReserved ? 'reserved' : ''}">
+                    <div class="gift-name">${gift.name}</div>
+                    <div class="gift-status">
+                        ${isReserved ? `<i class="fa-solid fa-circle-check" style="color: #2c3e35;"></i> Reservado por ${gift.reservedBy}` : '<i class="fa-regular fa-circle"></i> Disponible'}
+                    </div>
+                    <button class="btn-reserve" 
+                        ${isReserved ? 'disabled' : ''} 
+                        onclick="openModal(${gift.id})">
+                        ${isReserved ? 'Reservado' : 'Elegir'}
+                    </button>
+                </div>
+            `;
+            container.innerHTML += itemHTML;
+        });
+    }
+
+    function openModal(id) {
+        selectedGiftId = id;
+        const gift = gifts.find(g => g.id === id);
+        document.getElementById('modalGiftName').innerText = `Elegiste: "${gift.name}"`;
+        document.getElementById('guestName').value = '';
+        document.getElementById('reserveModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('reserveModal').classList.remove('active');
+        selectedGiftId = null;
+    }
+
+    function confirmReservation() {
+        const nameInput = document.getElementById('guestName').value.trim();
+        if (!nameInput) {
+            alert('Por favor, ingresa tu nombre para reservar el regalo.');
+            return;
+        }
+
+        const gift = gifts.find(g => g.id === selectedGiftId);
+        gift.reservedBy = nameInput;
+
+        localStorage.setItem('wedding_gifts_hector_yahaira', JSON.stringify(gifts));
+
+        renderGifts();
+        closeModal();
+
+        const message = `¡Hola! Soy ${nameInput}. He reservado el siguiente regalo para su boda: "${gift.name}". ¡Nos vemos pronto en la celebración! 💍✨`;
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
+
+        setTimeout(() => {
+            if (confirm(`¡Gracias ${nameInput}! Tu regalo ha sido apartado. ¿Deseas enviar la confirmación directamente por WhatsApp a los novios?`)) {
+                window.open(whatsappUrl, '_blank');
+            }
+        }, 300);
+    }
+
+    renderGifts();
+</script>
+
+</body>
+</html>
