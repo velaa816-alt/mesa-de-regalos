@@ -301,7 +301,7 @@
     </div>
 
     <h2 class="section-title">Mesa de Regalos</h2>
-    <p class="section-desc">Tu presencia es nuestro mejor regalo. Si deseas realizarnos un obsequio, puedes elegir una opción de nuestra lista (máximo 3 por opción):</p>
+    <p class="section-desc">Tu presencia es nuestro mejor regalo. Si deseas realizarnos un obsequio, puedes elegir una opción de nuestra lista:</p>
 
     <div class="gift-grid" id="giftContainer">Cargando regalos...</div>
 
@@ -331,7 +331,52 @@
     const WHATSAPP_PHONE = "51975001996";
     const API_URL = 'https://sheetdb.io/api/v1/gsi3nvdi219m2';
 
-    const defaultGifts = [{"id": 1, "name": "Olla Arrocera"}, {"id": 2, "name": "Plancha"}, {"id": 3, "name": "Licuadora"}, {"id": 4, "name": "Juego de ollas"}, {"id": 5, "name": "Tostadera"}, {"id": 6, "name": "Exprimidor de cítricos"}, {"id": 7, "name": "Microonda"}, {"id": 8, "name": "Sanguchera"}, {"id": 9, "name": "Sartén"}, {"id": 10, "name": "Set de Táper de vidrio"}, {"id": 11, "name": "Juego de tazas"}, {"id": 12, "name": "Juego de copas de vidrio para postres"}, {"id": 13, "name": "Juego de dulceras de vidrio"}, {"id": 14, "name": "Set de cubiertos de acero inoxidable"}, {"id": 15, "name": "Escurridor de acero inoxidable"}, {"id": 16, "name": "Termo de acero inoxidable"}, {"id": 17, "name": "Set de cucharones tramontina"}, {"id": 18, "name": "Set de bandeja de vidrio"}, {"id": 19, "name": "Tetera de acero inoxidable"}, {"id": 20, "name": "Set de dispensador y pulverizador de aceites"}, {"id": 21, "name": "Sábanas para cama Queen (2 plazas y media)"}, {"id": 22, "name": "Edredón para cama Queen (2 plazas y media)"}, {"id": 23, "name": "Cubrecama para cama Queen (2 plazas y media)"}, {"id": 24, "name": "Organizador de Zapatos"}, {"id": 25, "name": "Equipo de sonido portátil"}, {"id": 26, "name": "Silla de escritorio"}, {"id": 27, "name": "Juego de comedor"}, {"id": 28, "name": "Refrigeradora"}, {"id": 29, "name": "Set de Toalla de Mano"}, {"id": 30, "name": "Estractor"}, {"id": 31, "name": "Set de contenedores herméticos"}, {"id": 32, "name": "Condimento giratorio de madera"}, {"id": 33, "name": "Vajilla completa"}, {"id": 34, "name": "Frascos y contenedores asthetic"}, {"id": 35, "name": "Juego de almohadas"}, {"id": 36, "name": "Silla colgante tipo huevo"}, {"id": 37, "name": "Set de toallas de baño"}, {"id": 38, "name": "Organizadores de te filtrante"}, {"id": 39, "name": "Set de cuchillos de acero inoxidable"}, {"id": 40, "name": "Freidora de aire"}, {"id": 41, "name": "Set de organizadores para lavandería"}, {"id": 42, "name": "Lavadora"}];
+    // Lista de regalos actualizada con Televisor (ID 43, max: 1)
+    const defaultGifts = [
+        {"id": 1, "name": "Olla Arrocera", "max": 1},
+        {"id": 2, "name": "Plancha", "max": 1},
+        {"id": 3, "name": "Licuadora", "max": 2},
+        {"id": 4, "name": "Juego de ollas", "max": 2},
+        {"id": 5, "name": "Tostadera", "max": 1},
+        {"id": 6, "name": "Exprimidor de cítricos", "max": 1},
+        {"id": 7, "name": "Microonda", "max": 1},
+        {"id": 8, "name": "Sanguchera", "max": 1},
+        {"id": 9, "name": "Sartén", "max": 2},
+        {"id": 10, "name": "Set de Táper de vidrio", "max": 2},
+        {"id": 11, "name": "Juego de tazas", "max": 2},
+        {"id": 12, "name": "Juego de copas de vidrio para postres", "max": 2},
+        {"id": 13, "name": "Juego de dulceras de vidrio", "max": 2},
+        {"id": 14, "name": "Set de cubiertos de acero inoxidable", "max": 2},
+        {"id": 15, "name": "Escurridor de acero inoxidable", "max": 1},
+        {"id": 16, "name": "Termo de acero inoxidable", "max": 1},
+        {"id": 17, "name": "Set de cucharones tramontina", "max": 1},
+        {"id": 18, "name": "Set de bandeja de vidrio", "max": 2},
+        {"id": 19, "name": "Tetera de acero inoxidable", "max": 2},
+        {"id": 20, "name": "Set de dispensador y pulverizador de aceites", "max": 1},
+        {"id": 21, "name": "Sábanas para cama Queen (2 plazas y media)", "max": 3},
+        {"id": 22, "name": "Edredón para cama Queen (2 plazas y media)", "max": 3},
+        {"id": 23, "name": "Cubrecama para cama Queen (2 plazas y media)", "max": 4},
+        {"id": 24, "name": "Organizador de Zapatos", "max": 2},
+        {"id": 25, "name": "Equipo de sonido portátil", "max": 2},
+        {"id": 26, "name": "Silla de escritorio", "max": 2},
+        {"id": 27, "name": "Juego de comedor", "max": 2},
+        {"id": 28, "name": "Refrigeradora", "max": 1},
+        {"id": 29, "name": "Set de Toalla de Mano", "max": 3},
+        {"id": 30, "name": "Estractor", "max": 2},
+        {"id": 31, "name": "Set de contenedores herméticos", "max": 2},
+        {"id": 32, "name": "Condimento giratorio de madera", "max": 2},
+        {"id": 33, "name": "Vajilla completa", "max": 2},
+        {"id": 34, "name": "Frascos y contenedores asthetic", "max": 2},
+        {"id": 35, "name": "Juego de almohadas", "max": 3},
+        {"id": 36, "name": "Silla colgante tipo huevo", "max": 2},
+        {"id": 37, "name": "Set de toallas de baño", "max": 3},
+        {"id": 38, "name": "Organizadores de te filtrante", "max": 1},
+        {"id": 39, "name": "Set de cuchillos de acero inoxidable", "max": 1},
+        {"id": 40, "name": "Freidora de aire", "max": 2},
+        {"id": 41, "name": "Set de organizadores para lavandería", "max": 2},
+        {"id": 42, "name": "Lavadora", "max": 1},
+        {"id": 43, "name": "Televisión", "max": 1}
+    ];
 
     let giftsData = [];
     let selectedGiftId = null;
@@ -348,12 +393,13 @@
                     estado: sheetItem && sheetItem.estado ? String(sheetItem.estado) : 'Disponible',
                     invitado_1: sheetItem && sheetItem.invitado_1 ? String(sheetItem.invitado_1) : '',
                     invitado_2: sheetItem && sheetItem.invitado_2 ? String(sheetItem.invitado_2) : '',
-                    invitado_3: sheetItem && sheetItem.invitado_3 ? String(sheetItem.invitado_3) : ''
+                    invitado_3: sheetItem && sheetItem.invitado_3 ? String(sheetItem.invitado_3) : '',
+                    invitado_4: sheetItem && sheetItem.invitado_4 ? String(sheetItem.invitado_4) : ''
                 };
             });
         } catch (error) {
             console.error('Error cargando SheetDB:', error);
-            giftsData = defaultGifts.map(g => ({ ...g, estado: 'Disponible', invitado_1: '', invitado_2: '', invitado_3: '' }));
+            giftsData = defaultGifts.map(g => ({ ...g, estado: 'Disponible', invitado_1: '', invitado_2: '', invitado_3: '', invitado_4: '' }));
         }
 
         renderGifts();
@@ -368,21 +414,20 @@
             if (gift.invitado_1 && gift.invitado_1.trim() !== '') count++;
             if (gift.invitado_2 && gift.invitado_2.trim() !== '') count++;
             if (gift.invitado_3 && gift.invitado_3.trim() !== '') count++;
+            if (gift.invitado_4 && gift.invitado_4.trim() !== '') count++;
 
-            const isFullyReserved = count >= 3 || (gift.estado && gift.estado.toLowerCase().includes('agotado'));
+            const maxCapacity = gift.max || 1;
+            const isFullyReserved = count >= maxCapacity || (gift.estado && gift.estado.toLowerCase().includes('agotado'));
 
             let statusText = '';
-            if (count === 0) {
-                statusText = '<i class="fa-regular fa-circle"></i> Disponible (0/3)';
-            } else if (count === 1) {
-                const nombre = gift.invitado_1 ? ` (${gift.invitado_1})` : '';
-                statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> 1/3 Reservado<br><small>${nombre}</small>`;
-            } else if (count === 2) {
-                const nombresList = [gift.invitado_1, gift.invitado_2].filter(Boolean).join(', ');
-                const nombres = nombresList ? ` (${nombresList})` : '';
-                statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> 2/3 Reservados<br><small>${nombres}</small>`;
+            if (isFullyReserved) {
+                statusText = `<i class="fa-solid fa-circle-check" style="color: #2c3e35;"></i> Agotado (${count}/${maxCapacity})`;
+            } else if (count === 0) {
+                statusText = `<i class="fa-regular fa-circle"></i> Disponible (0/${maxCapacity})`;
             } else {
-                statusText = `<i class="fa-solid fa-circle-check" style="color: #2c3e35;"></i> Agotado (3/3)`;
+                const nombresList = [gift.invitado_1, gift.invitado_2, gift.invitado_3, gift.invitado_4].filter(Boolean).join(', ');
+                const nombres = nombresList ? ` (${nombresList})` : '';
+                statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> ${count}/${maxCapacity} Reservado<br><small>${nombres}</small>`;
             }
 
             const itemHTML = `
@@ -425,30 +470,16 @@
         btnConfirm.disabled = true;
 
         const gift = giftsData.find(g => String(g.id) === String(selectedGiftId));
+        const maxCapacity = gift.max || 1;
         let updateData = {};
 
-        if (!gift.invitado_1 || gift.invitado_1.trim() === '') {
-            updateData = {
-                invitado_1: nameInput,
-                estado: 'Reservado (1/3)'
-            };
-            gift.invitado_1 = nameInput;
-            gift.estado = 'Reservado (1/3)';
-        } else if (!gift.invitado_2 || gift.invitado_2.trim() === '') {
-            updateData = {
-                invitado_2: nameInput,
-                estado: 'Reservado (2/3)'
-            };
-            gift.invitado_2 = nameInput;
-            gift.estado = 'Reservado (2/3)';
-        } else if (!gift.invitado_3 || gift.invitado_3.trim() === '') {
-            updateData = {
-                invitado_3: nameInput,
-                estado: 'Agotado (3/3)'
-            };
-            gift.invitado_3 = nameInput;
-            gift.estado = 'Agotado (3/3)';
-        } else {
+        let currentCount = 0;
+        if (gift.invitado_1 && gift.invitado_1.trim() !== '') currentCount++;
+        if (gift.invitado_2 && gift.invitado_2.trim() !== '') currentCount++;
+        if (gift.invitado_3 && gift.invitado_3.trim() !== '') currentCount++;
+        if (gift.invitado_4 && gift.invitado_4.trim() !== '') currentCount++;
+
+        if (currentCount >= maxCapacity) {
             alert('Lo sentimos, este regalo ya no tiene cupos disponibles.');
             closeModal();
             btnConfirm.innerText = 'Reservar regalo';
@@ -456,6 +487,24 @@
             return;
         }
 
+        const nextSlot = currentCount + 1;
+        const newStatus = (nextSlot >= maxCapacity) ? `Agotado (${nextSlot}/${maxCapacity})` : `Reservado (${nextSlot}/${maxCapacity})`;
+
+        if (nextSlot === 1) {
+            updateData = { invitado_1: nameInput, estado: newStatus };
+            gift.invitado_1 = nameInput;
+        } else if (nextSlot === 2) {
+            updateData = { invitado_2: nameInput, estado: newStatus };
+            gift.invitado_2 = nameInput;
+        } else if (nextSlot === 3) {
+            updateData = { invitado_3: nameInput, estado: newStatus };
+            gift.invitado_3 = nameInput;
+        } else if (nextSlot === 4) {
+            updateData = { invitado_4: nameInput, estado: newStatus };
+            gift.invitado_4 = nameInput;
+        }
+
+        gift.estado = newStatus;
         renderGifts();
 
         try {
