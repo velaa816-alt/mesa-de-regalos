@@ -331,7 +331,7 @@
     const WHATSAPP_PHONE = "51975001996";
     const API_URL = 'https://sheetdb.io/api/v1/gsi3nvdi219m2';
 
-    // Lista de regalos con las nuevas adiciones (IDs 49 al 52)
+    // Lista de regalos con cupos actualizados para sumar 100 cupos en total
     const defaultGifts = [
         {"id": 1, "name": "Olla Arrocera", "max": 1},
         {"id": 2, "name": "Plancha", "max": 1},
@@ -342,7 +342,7 @@
         {"id": 7, "name": "Microonda", "max": 1},
         {"id": 8, "name": "Sanguchera", "max": 1},
         {"id": 9, "name": "Sartén", "max": 2},
-        {"id": 10, "name": "Set de Táper de vidrio", "max": 2},
+        {"id": 10, "name": "Set de Táper de vidrio", "max": 4}, // Aumentado de 2 a 4
         {"id": 11, "name": "Juego de tazas", "max": 2},
         {"id": 12, "name": "Juego de copas de vidrio para postres", "max": 2},
         {"id": 13, "name": "Juego de dulceras de vidrio", "max": 2},
@@ -353,8 +353,8 @@
         {"id": 18, "name": "Set de bandeja de vidrio", "max": 2},
         {"id": 19, "name": "Tetera de acero inoxidable", "max": 2},
         {"id": 20, "name": "Set de dispensador y pulverizador de aceites", "max": 1},
-        {"id": 21, "name": "Sábanas para cama Queen (2 plazas y media)", "max": 3},
-        {"id": 22, "name": "Edredón para cama Queen (2 plazas y media)", "max": 3},
+        {"id": 21, "name": "Sábanas para cama Queen (2 plazas y media)", "max": 5}, // Aumentado de 3 a 5
+        {"id": 22, "name": "Edredón para cama Queen (2 plazas y media)", "max": 5}, // Aumentado de 3 a 5
         {"id": 23, "name": "Cubrecama para cama Queen (2 plazas y media)", "max": 4},
         {"id": 24, "name": "Organizador de Zapatos", "max": 2},
         {"id": 25, "name": "Equipo de sonido portátil", "max": 2},
@@ -365,11 +365,11 @@
         {"id": 30, "name": "Estractor", "max": 2},
         {"id": 31, "name": "Set de contenedores herméticos", "max": 2},
         {"id": 32, "name": "Condimento giratorio de madera", "max": 2},
-        {"id": 33, "name": "Vajilla completa", "max": 2},
+        {"id": 33, "name": "Vajilla completa", "max": 4}, // Aumentado de 2 a 4
         {"id": 34, "name": "Frascos y contenedores asthetic", "max": 2},
-        {"id": 35, "name": "Juego de almohadas", "max": 3},
+        {"id": 35, "name": "Juego de almohadas", "max": 5}, // Aumentado de 3 a 5
         {"id": 36, "name": "Silla colgante tipo huevo", "max": 2},
-        {"id": 37, "name": "Set de toallas de baño", "max": 3},
+        {"id": 37, "name": "Set de toallas de baño", "max": 5}, // Aumentado de 3 a 5
         {"id": 38, "name": "Organizadores de te filtrante", "max": 1},
         {"id": 39, "name": "Set de cuchillos de acero inoxidable", "max": 1},
         {"id": 40, "name": "Freidora de aire", "max": 2},
@@ -403,12 +403,13 @@
                     invitado_1: sheetItem && sheetItem.invitado_1 ? String(sheetItem.invitado_1) : '',
                     invitado_2: sheetItem && sheetItem.invitado_2 ? String(sheetItem.invitado_2) : '',
                     invitado_3: sheetItem && sheetItem.invitado_3 ? String(sheetItem.invitado_3) : '',
-                    invitado_4: sheetItem && sheetItem.invitado_4 ? String(sheetItem.invitado_4) : ''
+                    invitado_4: sheetItem && sheetItem.invitado_4 ? String(sheetItem.invitado_4) : '',
+                    invitado_5: sheetItem && sheetItem.invitado_5 ? String(sheetItem.invitado_5) : ''
                 };
             });
         } catch (error) {
             console.error('Error cargando SheetDB:', error);
-            giftsData = defaultGifts.map(g => ({ ...g, estado: 'Disponible', invitado_1: '', invitado_2: '', invitado_3: '', invitado_4: '' }));
+            giftsData = defaultGifts.map(g => ({ ...g, estado: 'Disponible', invitado_1: '', invitado_2: '', invitado_3: '', invitado_4: '', invitado_5: '' }));
         }
 
         renderGifts();
@@ -424,6 +425,7 @@
             if (gift.invitado_2 && gift.invitado_2.trim() !== '') count++;
             if (gift.invitado_3 && gift.invitado_3.trim() !== '') count++;
             if (gift.invitado_4 && gift.invitado_4.trim() !== '') count++;
+            if (gift.invitado_5 && gift.invitado_5.trim() !== '') count++;
 
             const maxCapacity = gift.max || 1;
             const isFullyReserved = count >= maxCapacity || (gift.estado && gift.estado.toLowerCase().includes('agotado'));
@@ -434,7 +436,7 @@
             } else if (count === 0) {
                 statusText = `<i class="fa-regular fa-circle"></i> Disponible (0/${maxCapacity})`;
             } else {
-                const nombresList = [gift.invitado_1, gift.invitado_2, gift.invitado_3, gift.invitado_4].filter(Boolean).join(', ');
+                const nombresList = [gift.invitado_1, gift.invitado_2, gift.invitado_3, gift.invitado_4, gift.invitado_5].filter(Boolean).join(', ');
                 const nombres = nombresList ? ` (${nombresList})` : '';
                 statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> ${count}/${maxCapacity} Reservado<br><small>${nombres}</small>`;
             }
@@ -487,6 +489,7 @@
         if (gift.invitado_2 && gift.invitado_2.trim() !== '') currentCount++;
         if (gift.invitado_3 && gift.invitado_3.trim() !== '') currentCount++;
         if (gift.invitado_4 && gift.invitado_4.trim() !== '') currentCount++;
+        if (gift.invitado_5 && gift.invitado_5.trim() !== '') currentCount++;
 
         if (currentCount >= maxCapacity) {
             alert('Lo sentimos, este regalo ya no tiene cupos disponibles.');
@@ -511,6 +514,9 @@
         } else if (nextSlot === 4) {
             updateData = { invitado_4: nameInput, estado: newStatus };
             gift.invitado_4 = nameInput;
+        } else if (nextSlot === 5) {
+            updateData = { invitado_5: nameInput, estado: newStatus };
+            gift.invitado_5 = nameInput;
         }
 
         gift.estado = newStatus;
