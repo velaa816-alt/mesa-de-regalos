@@ -3,421 +3,554 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Regalos</title>
-    <!-- Font Awesome para los íconos -->
+    <title>Nuestra Boda - Hector & Yahaira</title>
+    <!-- Fonts Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
             --primary: #8a704c;
-            --secondary: #2c3e35;
-            --bg: #f9f8f6;
+            --primary-light: #c5b396;
+            --accent: #2c3e35;
+            --bg-light: #faf8f5;
+            --text-dark: #2d2d2d;
+            --text-muted: #666666;
             --card-bg: #ffffff;
-            --text: #333333;
-            --disabled: #cccccc;
+            --border-color: #e5ded4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f2ede4;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0;
         }
 
-        h1 {
+        .mobile-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        .header {
+            background-color: var(--accent);
+            color: #ffffff;
             text-align: center;
-            color: var(--secondary);
-            margin-bottom: 30px;
+            padding: 50px 20px 40px;
+            position: relative;
+            background-image: radial-gradient(circle at center, rgba(138,112,76,0.2) 0%, transparent 70%);
+        }
+
+        .header::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 2px;
+            background-color: var(--primary-light);
+            margin: 20px auto 0;
+        }
+
+        .subtitle-top {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--primary-light);
+            margin-bottom: 12px;
+        }
+
+        .names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .names span {
+            display: block;
+            font-style: italic;
+            font-size: 26px;
+            color: var(--primary-light);
+        }
+
+        .date-badge {
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            color: #eae5dc;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            color: var(--accent);
+            margin: 35px 20px 10px;
+            position: relative;
+        }
+
+        .section-desc {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            padding: 0 25px;
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
 
         .gift-grid {
+            padding: 0 15px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
         }
 
         .gift-card {
             background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px 12px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 1px solid #e0e0e0;
-        }
-
-        .gift-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
         }
 
         .gift-card.reserved {
-            background-color: #f2f2f2;
-            opacity: 0.8;
+            background-color: #f3f3f3;
+            border-color: #e0e0e0;
+            opacity: 0.7;
         }
 
         .gift-name {
-            font-size: 1.1rem;
+            font-size: 13px;
             font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 10px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .gift-status {
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            color: #666;
+            font-size: 11px;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            line-height: 1.3;
         }
 
         .btn-reserve {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.2s ease;
             width: 100%;
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
         }
 
         .btn-reserve:hover {
-            background-color: #725b3d;
+            background-color: var(--accent);
         }
 
         .btn-reserve:disabled {
-            background-color: var(--disabled);
+            background-color: #ccc;
             cursor: not-allowed;
         }
 
-        /* Estilos del Modal */
-        .modal {
-            display: none;
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
         }
 
-        .modal.active {
-            display: flex;
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .modal-content {
-            background: white;
+        .modal {
+            background: #ffffff;
             padding: 25px;
             border-radius: 12px;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
         }
 
         .modal-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--secondary);
-            margin-bottom: 15px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 10px;
         }
 
-        .modal-input {
-            width: 100%;
-            padding: 10px;
+        .modal-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
             margin-bottom: 20px;
-            border: 1px solid #ccc;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
             border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 1rem;
+            font-size: 14px;
+            outline: none;
         }
 
         .modal-buttons {
             display: flex;
             gap: 10px;
-            justify-content: flex-end;
+            margin-top: 20px;
         }
 
         .btn-cancel {
-            background: #e0e0e0;
+            flex: 1;
+            background: #eee;
             color: #333;
             border: none;
-            padding: 8px 15px;
+            padding: 12px;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 13px;
         }
 
         .btn-confirm {
+            flex: 1;
             background: var(--primary);
-            color: white;
+            color: #fff;
             border: none;
-            padding: 8px 15px;
+            padding: 12px;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 40px;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
 
-    <h1>Mesa de Regalos</h1>
-
-    <!-- Contenedor principal para las tarjetas de regalos -->
-    <div id="giftContainer" class="gift-grid"></div>
-
-    <!-- Modal para ingresar el nombre -->
-    <div id="reserveModal" class="modal">
-        <div class="modal-content">
-            <div id="modalGiftName" class="modal-title">Elegiste un regalo</div>
-            <label for="guestName" style="display:block; margin-bottom: 8px; font-size: 0.9rem;">Ingresa tu nombre y apellido:</label>
-            <input type="text" id="guestName" class="modal-input" placeholder="Ej. Maria Lopez" />
-            <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-                <button id="btnConfirm" class="btn-confirm" onclick="confirmReservation()">Reservar regalo</button>
-            </div>
-        </div>
+<div class="mobile-container">
+    <div class="header">
+        <div class="subtitle-top">Nuestra Boda</div>
+        <div class="names">Hector <span>&</span> Yahaira</div>
+        <div class="date-badge">12 de Septiembre</div>
     </div>
 
-    <script>
-        const WHATSAPP_PHONE = "51975001996";
-        const API_URL = 'https://sheetdb.io/api/v1/gsi3nvdi219m2';
+    <h2 class="section-title">Mesa de Regalos</h2>
+    <p class="section-desc">Tu presencia es nuestro mejor regalo. Si deseas realizarnos un obsequio, puedes elegir una opción de nuestra lista:</p>
 
-        // Lista de regalos con cupos definidos
-        const defaultGifts = [
-            {"id": 1, "name": "Olla Arrocera", "max": 1},
-            {"id": 2, "name": "Plancha", "max": 1},
-            {"id": 3, "name": "Licuadora", "max": 2},
-            {"id": 4, "name": "Juego de ollas", "max": 2},
-            {"id": 5, "name": "Tostadera", "max": 1},
-            {"id": 6, "name": "Exprimidor de cítricos", "max": 1},
-            {"id": 7, "name": "Microonda", "max": 1},
-            {"id": 8, "name": "Sanguchera", "max": 1},
-            {"id": 9, "name": "Sartén", "max": 2},
-            {"id": 10, "name": "Set de Táper de vidrio", "max": 4},
-            {"id": 11, "name": "Juego de tazas", "max": 2},
-            {"id": 12, "name": "Juego de copas de vidrio para postres", "max": 2},
-            {"id": 13, "name": "Juego de dulceras de vidrio", "max": 2},
-            {"id": 14, "name": "Set de cubiertos de acero inoxidable", "max": 2},
-            {"id": 15, "name": "Escurridor de acero inoxidable", "max": 1},
-            {"id": 16, "name": "Termo de acero inoxidable", "max": 1},
-            {"id": 17, "name": "Set de cucharones tramontina", "max": 1},
-            {"id": 18, "name": "Set de bandeja de vidrio", "max": 2},
-            {"id": 19, "name": "Tetera de acero inoxidable", "max": 2},
-            {"id": 20, "name": "Set de dispensador y pulverizador de aceites", "max": 1},
-            {"id": 21, "name": "Sábanas para cama Queen (2 plazas y media)", "max": 5},
-            {"id": 22, "name": "Edredón para cama Queen (2 plazas y media)", "max": 5},
-            {"id": 23, "name": "Cubrecama para cama Queen (2 plazas y media)", "max": 4},
-            {"id": 24, "name": "Organizador de Zapatos", "max": 2},
-            {"id": 25, "name": "Equipo de sonido portátil", "max": 2},
-            {"id": 26, "name": "Silla de escritorio", "max": 2},
-            {"id": 27, "name": "Juego de comedor", "max": 2},
-            {"id": 28, "name": "Refrigeradora", "max": 1},
-            {"id": 29, "name": "Set de Toalla de Mano", "max": 3},
-            {"id": 30, "name": "Estractor", "max": 2},
-            {"id": 31, "name": "Set de contenedores herméticos", "max": 2},
-            {"id": 32, "name": "Condimento giratorio de madera", "max": 2},
-            {"id": 33, "name": "Vajilla completa", "max": 4},
-            {"id": 34, "name": "Frascos y contenedores asthetic", "max": 2},
-            {"id": 35, "name": "Juego de almohadas", "max": 5},
-            {"id": 36, "name": "Silla colgante tipo huevo", "max": 2},
-            {"id": 37, "name": "Set de toallas de baño", "max": 5},
-            {"id": 38, "name": "Organizadores de te filtrante", "max": 1},
-            {"id": 39, "name": "Set de cuchillos de acero inoxidable", "max": 1},
-            {"id": 40, "name": "Freidora de aire", "max": 2},
-            {"id": 41, "name": "Set de organizadores para lavandería", "max": 2},
-            {"id": 42, "name": "Lavadora", "max": 1},
-            {"id": 43, "name": "Televisión", "max": 1},
-            {"id": 44, "name": "Cocina", "max": 1},
-            {"id": 45, "name": "Juego de sartenes", "max": 1},
-            {"id": 46, "name": "Juego de cuchillos", "max": 1},
-            {"id": 47, "name": "Juego de muebles", "max": 1},
-            {"id": 48, "name": "Secadora de cabello", "max": 1},
-            {"id": 49, "name": "Batidora", "max": 1},
-            {"id": 50, "name": "Freidora de aire", "max": 1},
-            {"id": 51, "name": "Cafetera", "max": 1},
-            {"id": 52, "name": "Copas para champagne", "max": 1}
-        ];
+    <div class="gift-grid" id="giftContainer">Cargando regalos...</div>
 
-        let giftsData = [];
-        let selectedGiftId = null;
+    <div class="footer-note">
+        Nos vemos en el gran día ❤️
+    </div>
+</div>
 
-        async function loadGifts() {
-            try {
-                const response = await fetch(`${API_URL}?t=${Date.now()}`, { cache: 'no-store' });
-                const sheetData = await response.json();
+<div class="modal-overlay" id="reserveModal">
+    <div class="modal">
+        <div class="modal-title">Reservar Regalo</div>
+        <div class="modal-subtitle" id="modalGiftName">Cargando regalo...</div>
+        
+        <div class="form-group">
+            <label for="guestName">Tu Nombre Completo:</label>
+            <input type="text" id="guestName" placeholder="Ej. Juan Pérez">
+        </div>
 
-                giftsData = defaultGifts.map(gift => {
-                    const sheetItem = sheetData.find(item => String(item.id).trim() === String(gift.id).trim());
-                    return {
-                        ...gift,
-                        estado: sheetItem && sheetItem.estado ? String(sheetItem.estado) : 'Disponible',
-                        invitado_1: sheetItem && sheetItem.invitado_1 ? String(sheetItem.invitado_1) : '',
-                        invitado_2: sheetItem && sheetItem.invitado_2 ? String(sheetItem.invitado_2) : '',
-                        invitado_3: sheetItem && sheetItem.invitado_3 ? String(sheetItem.invitado_3) : '',
-                        invitado_4: sheetItem && sheetItem.invitado_4 ? String(sheetItem.invitado_4) : '',
-                        invitado_5: sheetItem && sheetItem.invitado_5 ? String(sheetItem.invitado_5) : ''
-                    };
-                });
-            } catch (error) {
-                console.error('Error cargando SheetDB:', error);
-                giftsData = defaultGifts.map(g => ({ 
-                    ...g, 
-                    estado: 'Disponible', 
-                    invitado_1: '', 
-                    invitado_2: '', 
-                    invitado_3: '', 
-                    invitado_4: '', 
-                    invitado_5: '' 
-                }));
-            }
+        <div class="modal-buttons">
+            <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+            <button class="btn-confirm" id="btnConfirm" onclick="confirmReservation()">Reservar regalo</button>
+        </div>
+    </div>
+</div>
 
-            renderGifts();
-        }
+<script>
+    const WHATSAPP_PHONE = "51975001996";
+    const API_URL = 'https://sheetdb.io/api/v1/gsi3nvdi219m2';
 
-        function renderGifts() {
-            const container = document.getElementById('giftContainer');
-            container.innerHTML = '';
+    // Lista de regalos con cupos actualizados para sumar 100 cupos en total
+    const defaultGifts = [
+        {"id": 1, "name": "Olla Arrocera", "max": 1},
+        {"id": 2, "name": "Plancha", "max": 1},
+        {"id": 3, "name": "Licuadora", "max": 2},
+        {"id": 4, "name": "Juego de ollas", "max": 2},
+        {"id": 5, "name": "Tostadera", "max": 1},
+        {"id": 6, "name": "Exprimidor de cítricos", "max": 1},
+        {"id": 7, "name": "Microonda", "max": 1},
+        {"id": 8, "name": "Sanguchera", "max": 1},
+        {"id": 9, "name": "Sartén", "max": 2},
+        {"id": 10, "name": "Set de Táper de vidrio", "max": 4}, // Aumentado de 2 a 4
+        {"id": 11, "name": "Juego de tazas", "max": 2},
+        {"id": 12, "name": "Juego de copas de vidrio para postres", "max": 2},
+        {"id": 13, "name": "Juego de dulceras de vidrio", "max": 2},
+        {"id": 14, "name": "Set de cubiertos de acero inoxidable", "max": 2},
+        {"id": 15, "name": "Escurridor de acero inoxidable", "max": 1},
+        {"id": 16, "name": "Termo de acero inoxidable", "max": 1},
+        {"id": 17, "name": "Set de cucharones tramontina", "max": 1},
+        {"id": 18, "name": "Set de bandeja de vidrio", "max": 2},
+        {"id": 19, "name": "Tetera de acero inoxidable", "max": 2},
+        {"id": 20, "name": "Set de dispensador y pulverizador de aceites", "max": 1},
+        {"id": 21, "name": "Sábanas para cama Queen (2 plazas y media)", "max": 5}, // Aumentado de 3 a 5
+        {"id": 22, "name": "Edredón para cama Queen (2 plazas y media)", "max": 5}, // Aumentado de 3 a 5
+        {"id": 23, "name": "Cubrecama para cama Queen (2 plazas y media)", "max": 4},
+        {"id": 24, "name": "Organizador de Zapatos", "max": 2},
+        {"id": 25, "name": "Equipo de sonido portátil", "max": 2},
+        {"id": 26, "name": "Silla de escritorio", "max": 2},
+        {"id": 27, "name": "Juego de comedor", "max": 2},
+        {"id": 28, "name": "Refrigeradora", "max": 1},
+        {"id": 29, "name": "Set de Toalla de Mano", "max": 3},
+        {"id": 30, "name": "Estractor", "max": 2},
+        {"id": 31, "name": "Set de contenedores herméticos", "max": 2},
+        {"id": 32, "name": "Condimento giratorio de madera", "max": 2},
+        {"id": 33, "name": "Vajilla completa", "max": 4}, // Aumentado de 2 a 4
+        {"id": 34, "name": "Frascos y contenedores asthetic", "max": 2},
+        {"id": 35, "name": "Juego de almohadas", "max": 5}, // Aumentado de 3 a 5
+        {"id": 36, "name": "Silla colgante tipo huevo", "max": 2},
+        {"id": 37, "name": "Set de toallas de baño", "max": 5}, // Aumentado de 3 a 5
+        {"id": 38, "name": "Organizadores de te filtrante", "max": 1},
+        {"id": 39, "name": "Set de cuchillos de acero inoxidable", "max": 1},
+        {"id": 40, "name": "Freidora de aire", "max": 2},
+        {"id": 41, "name": "Set de organizadores para lavandería", "max": 2},
+        {"id": 42, "name": "Lavadora", "max": 1},
+        {"id": 43, "name": "Televisión", "max": 1},
+        {"id": 44, "name": "Cocina", "max": 1},
+        {"id": 45, "name": "Juego de sartenes", "max": 1},
+        {"id": 46, "name": "Juego de cuchillos", "max": 1},
+        {"id": 47, "name": "Juego de muebles", "max": 1},
+        {"id": 48, "name": "Secadora de cabello", "max": 1},
+        {"id": 49, "name": "Batidora", "max": 1},
+        {"id": 50, "name": "Freidora de aire", "max": 1},
+        {"id": 51, "name": "Cafetera", "max": 1},
+        {"id": 52, "name": "Copas para champagne", "max": 1}
+    ];
 
-            giftsData.forEach(gift => {
-                let count = 0;
-                if (gift.invitado_1 && gift.invitado_1.trim() !== '') count++;
-                if (gift.invitado_2 && gift.invitado_2.trim() !== '') count++;
-                if (gift.invitado_3 && gift.invitado_3.trim() !== '') count++;
-                if (gift.invitado_4 && gift.invitado_4.trim() !== '') count++;
-                if (gift.invitado_5 && gift.invitado_5.trim() !== '') count++;
+    let giftsData = [];
+    let selectedGiftId = null;
 
-                const maxCapacity = gift.max || 1;
-                const isFullyReserved = count >= maxCapacity || (gift.estado && gift.estado.toLowerCase().includes('agotado'));
+    async function loadGifts() {
+        try {
+            const response = await fetch(`${API_URL}?t=${Date.now()}`, { cache: 'no-store' });
+            const sheetData = await response.json();
 
-                let statusText = '';
-                if (isFullyReserved) {
-                    statusText = `<i class="fa-solid fa-circle-check" style="color: #2c3e35;"></i> Agotado (${count}/${maxCapacity})`;
-                } else if (count === 0) {
-                    statusText = `<i class="fa-regular fa-circle"></i> Disponible (0/${maxCapacity})`;
-                } else {
-                    const nombresList = [gift.invitado_1, gift.invitado_2, gift.invitado_3, gift.invitado_4, gift.invitado_5].filter(Boolean).join(', ');
-                    const nombres = nombresList ? ` (${nombresList})` : '';
-                    statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> ${count}/${maxCapacity} Reservado<br><small>${nombres}</small>`;
-                }
-
-                const itemHTML = `
-                    <div class="gift-card ${isFullyReserved ? 'reserved' : ''}">
-                        <div class="gift-name">${gift.name}</div>
-                        <div class="gift-status">${statusText}</div>
-                        <button class="btn-reserve" 
-                            ${isFullyReserved ? 'disabled' : ''} 
-                            onclick="openModal(${gift.id})">
-                            ${isFullyReserved ? 'Agotado 🔒' : 'Elegir'}
-                        </button>
-                    </div>
-                `;
-                container.innerHTML += itemHTML;
+            giftsData = defaultGifts.map(gift => {
+                const sheetItem = sheetData.find(item => String(item.id).trim() === String(gift.id).trim());
+                return {
+                    ...gift,
+                    estado: sheetItem && sheetItem.estado ? String(sheetItem.estado) : 'Disponible',
+                    invitado_1: sheetItem && sheetItem.invitado_1 ? String(sheetItem.invitado_1) : '',
+                    invitado_2: sheetItem && sheetItem.invitado_2 ? String(sheetItem.invitado_2) : '',
+                    invitado_3: sheetItem && sheetItem.invitado_3 ? String(sheetItem.invitado_3) : '',
+                    invitado_4: sheetItem && sheetItem.invitado_4 ? String(sheetItem.invitado_4) : '',
+                    invitado_5: sheetItem && sheetItem.invitado_5 ? String(sheetItem.invitado_5) : ''
+                };
             });
+        } catch (error) {
+            console.error('Error cargando SheetDB:', error);
+            giftsData = defaultGifts.map(g => ({ ...g, estado: 'Disponible', invitado_1: '', invitado_2: '', invitado_3: '', invitado_4: '', invitado_5: '' }));
         }
 
-        function openModal(id) {
-            selectedGiftId = id;
-            const gift = giftsData.find(g => String(g.id) === String(id));
-            document.getElementById('modalGiftName').innerText = `Elegiste: "${gift.name}"`;
-            document.getElementById('guestName').value = '';
-            document.getElementById('reserveModal').classList.add('active');
-        }
+        renderGifts();
+    }
 
-        function closeModal() {
-            document.getElementById('reserveModal').classList.remove('active');
-            selectedGiftId = null;
-        }
+    function renderGifts() {
+        const container = document.getElementById('giftContainer');
+        container.innerHTML = '';
 
-        async function confirmReservation() {
-            const nameInput = document.getElementById('guestName').value.trim();
-            if (!nameInput) {
-                alert('Por favor, ingresa tu nombre para reservar el regalo.');
-                return;
-            }
+        giftsData.forEach(gift => {
+            let count = 0;
+            if (gift.invitado_1 && gift.invitado_1.trim() !== '') count++;
+            if (gift.invitado_2 && gift.invitado_2.trim() !== '') count++;
+            if (gift.invitado_3 && gift.invitado_3.trim() !== '') count++;
+            if (gift.invitado_4 && gift.invitado_4.trim() !== '') count++;
+            if (gift.invitado_5 && gift.invitado_5.trim() !== '') count++;
 
-            const btnConfirm = document.getElementById('btnConfirm');
-            btnConfirm.innerText = 'Guardando...';
-            btnConfirm.disabled = true;
-
-            const gift = giftsData.find(g => String(g.id) === String(selectedGiftId));
             const maxCapacity = gift.max || 1;
-            let updateData = {};
+            const isFullyReserved = count >= maxCapacity || (gift.estado && gift.estado.toLowerCase().includes('agotado'));
 
-            let currentCount = 0;
-            if (gift.invitado_1 && gift.invitado_1.trim() !== '') currentCount++;
-            if (gift.invitado_2 && gift.invitado_2.trim() !== '') currentCount++;
-            if (gift.invitado_3 && gift.invitado_3.trim() !== '') currentCount++;
-            if (gift.invitado_4 && gift.invitado_4.trim() !== '') currentCount++;
-            if (gift.invitado_5 && gift.invitado_5.trim() !== '') currentCount++;
-
-            if (currentCount >= maxCapacity) {
-                alert('Lo sentimos, este regalo ya no tiene cupos disponibles.');
-                closeModal();
-                btnConfirm.innerText = 'Reservar regalo';
-                btnConfirm.disabled = false;
-                return;
+            let statusText = '';
+            if (isFullyReserved) {
+                statusText = `<i class="fa-solid fa-circle-check" style="color: #2c3e35;"></i> Agotado (${count}/${maxCapacity})`;
+            } else if (count === 0) {
+                statusText = `<i class="fa-regular fa-circle"></i> Disponible (0/${maxCapacity})`;
+            } else {
+                const nombresList = [gift.invitado_1, gift.invitado_2, gift.invitado_3, gift.invitado_4, gift.invitado_5].filter(Boolean).join(', ');
+                const nombres = nombresList ? ` (${nombresList})` : '';
+                statusText = `<i class="fa-solid fa-circle-half-stroke" style="color: #8a704c;"></i> ${count}/${maxCapacity} Reservado<br><small>${nombres}</small>`;
             }
 
-            const nextSlot = currentCount + 1;
-            const newStatus = (nextSlot >= maxCapacity) ? `Agotado (${nextSlot}/${maxCapacity})` : `Reservado (${nextSlot}/${maxCapacity})`;
+            const itemHTML = `
+                <div class="gift-card ${isFullyReserved ? 'reserved' : ''}">
+                    <div class="gift-name">${gift.name}</div>
+                    <div class="gift-status">${statusText}</div>
+                    <button class="btn-reserve" 
+                        ${isFullyReserved ? 'disabled' : ''} 
+                        onclick="openModal(${gift.id})">
+                        ${isFullyReserved ? 'Agotado 🔒' : 'Elegir'}
+                    </button>
+                </div>
+            `;
+            container.innerHTML += itemHTML;
+        });
+    }
 
-            if (nextSlot === 1) {
-                updateData = { invitado_1: nameInput, estado: newStatus };
-                gift.invitado_1 = nameInput;
-            } else if (nextSlot === 2) {
-                updateData = { invitado_2: nameInput, estado: newStatus };
-                gift.invitado_2 = nameInput;
-            } else if (nextSlot === 3) {
-                updateData = { invitado_3: nameInput, estado: newStatus };
-                gift.invitado_3 = nameInput;
-            } else if (nextSlot === 4) {
-                updateData = { invitado_4: nameInput, estado: newStatus };
-                gift.invitado_4 = nameInput;
-            } else if (nextSlot === 5) {
-                updateData = { invitado_5: nameInput, estado: newStatus };
-                gift.invitado_5 = nameInput;
-            }
+    function openModal(id) {
+        selectedGiftId = id;
+        const gift = giftsData.find(g => String(g.id) === String(id));
+        document.getElementById('modalGiftName').innerText = `Elegiste: "${gift.name}"`;
+        document.getElementById('guestName').value = '';
+        document.getElementById('reserveModal').classList.add('active');
+    }
 
-            gift.estado = newStatus;
-            
-            // Refrescar inmediatamente la vista local
-            renderGifts();
+    function closeModal() {
+        document.getElementById('reserveModal').classList.remove('active');
+        selectedGiftId = null;
+    }
 
-            try {
-                // Enviar actualización a SheetDB
-                await fetch(`${API_URL}/id/${gift.id}`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ data: updateData })
-                });
-
-                closeModal();
-                btnConfirm.innerText = 'Reservar regalo';
-                btnConfirm.disabled = false;
-
-                const message = `¡Hola! Soy ${nameInput}. He reservado el regalo: "${gift.name}". ¡Nos vemos pronto en la celebración! 💍✨`;
-                const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
-
-                if (confirm(`¡Gracias ${nameInput}! Tu regalo ha sido apartado. ¿Deseas enviar la confirmación por WhatsApp a los novios?`)) {
-                    window.open(whatsappUrl, '_blank');
-                }
-
-            } catch (error) {
-                alert('Ocurrió un error al registrar tu reserva. Inténtalo de nuevo.');
-                btnConfirm.innerText = 'Reservar regalo';
-                btnConfirm.disabled = false;
-                loadGifts();
-            }
+    async function confirmReservation() {
+        const nameInput = document.getElementById('guestName').value.trim();
+        if (!nameInput) {
+            alert('Por favor, ingresa tu nombre para reservar el regalo.');
+            return;
         }
 
-        document.addEventListener('DOMContentLoaded', loadGifts);
-    </script>
+        const btnConfirm = document.getElementById('btnConfirm');
+        btnConfirm.innerText = 'Guardando...';
+        btnConfirm.disabled = true;
+
+        const gift = giftsData.find(g => String(g.id) === String(selectedGiftId));
+        const maxCapacity = gift.max || 1;
+        let updateData = {};
+
+        let currentCount = 0;
+        if (gift.invitado_1 && gift.invitado_1.trim() !== '') currentCount++;
+        if (gift.invitado_2 && gift.invitado_2.trim() !== '') currentCount++;
+        if (gift.invitado_3 && gift.invitado_3.trim() !== '') currentCount++;
+        if (gift.invitado_4 && gift.invitado_4.trim() !== '') currentCount++;
+        if (gift.invitado_5 && gift.invitado_5.trim() !== '') currentCount++;
+
+        if (currentCount >= maxCapacity) {
+            alert('Lo sentimos, este regalo ya no tiene cupos disponibles.');
+            closeModal();
+            btnConfirm.innerText = 'Reservar regalo';
+            btnConfirm.disabled = false;
+            return;
+        }
+
+        const nextSlot = currentCount + 1;
+        const newStatus = (nextSlot >= maxCapacity) ? `Agotado (${nextSlot}/${maxCapacity})` : `Reservado (${nextSlot}/${maxCapacity})`;
+
+        if (nextSlot === 1) {
+            updateData = { invitado_1: nameInput, estado: newStatus };
+            gift.invitado_1 = nameInput;
+        } else if (nextSlot === 2) {
+            updateData = { invitado_2: nameInput, estado: newStatus };
+            gift.invitado_2 = nameInput;
+        } else if (nextSlot === 3) {
+            updateData = { invitado_3: nameInput, estado: newStatus };
+            gift.invitado_3 = nameInput;
+        } else if (nextSlot === 4) {
+            updateData = { invitado_4: nameInput, estado: newStatus };
+            gift.invitado_4 = nameInput;
+        } else if (nextSlot === 5) {
+            updateData = { invitado_5: nameInput, estado: newStatus };
+            gift.invitado_5 = nameInput;
+        }
+
+        gift.estado = newStatus;
+        renderGifts();
+
+        try {
+            await fetch(`${API_URL}/id/${gift.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: updateData })
+            });
+
+            closeModal();
+            btnConfirm.innerText = 'Reservar regalo';
+            btnConfirm.disabled = false;
+
+            const message = `¡Hola! Soy ${nameInput}. He reservado el regalo: "${gift.name}". ¡Nos vemos pronto en la celebración! 💍✨`;
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
+
+            if (confirm(`¡Gracias ${nameInput}! Tu regalo ha sido apartado. ¿Deseas enviar la confirmación por WhatsApp a los novios?`)) {
+                window.open(whatsappUrl, '_blank');
+            }
+
+            loadGifts();
+
+        } catch (error) {
+            alert('Ocurrió un error al registrar tu reserva. Inténtalo de nuevo.');
+            btnConfirm.innerText = 'Reservar regalo';
+            btnConfirm.disabled = false;
+            loadGifts();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadGifts);
+</script>
 </body>
 </html>
